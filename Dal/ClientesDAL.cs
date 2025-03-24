@@ -7,13 +7,15 @@ using Modelo;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data;
 using System.Data;
+using Microsoft.Identity.Client;
+using Dal;
 
 
 namespace Dal
 {
     public class ClientesDAL
     {
-       public void Excluir(ClienteInformation Codigo)
+       public void Incluir(ClienteInformation Cliente)
        {
             SqlConnection cn = new SqlConnection();
             try
@@ -46,6 +48,10 @@ namespace Dal
                 cn.Open();
                 cmd.ExecuteNonQuery();
 
+                Cliente.Codigo = (Int32)cmd.Parameters[0].Value;
+
+
+
                
 
             }
@@ -69,6 +75,18 @@ namespace Dal
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "Altera_Cliente";
+
+                SqlParameter pcodigo = new SqlParameter("Codigo", SqlDbType.Int);
+                pcodigo.Value = cliente.Codigo;
+                cmd.Parameters.Add(pcodigo);
+
+                SqlParameter pnome = new SqlParameter("Codigo", SqlDbType.Int);
+                pcodigo.Value = cliente.Codigo;
+                cmd.Parameters.Add(pcodigo);
+
+
+
 
 
             }
