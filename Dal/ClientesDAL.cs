@@ -15,7 +15,7 @@ namespace Dal
 {
     public class ClientesDAL
     {
-       public void Incluir(ClienteInformation Cliente)
+       public void Incluir(ClienteInformation cliente)
        {
             SqlConnection cn = new SqlConnection();
             try
@@ -48,7 +48,7 @@ namespace Dal
                 cn.Open();
                 cmd.ExecuteNonQuery();
 
-                Cliente.Codigo = (Int32)cmd.Parameters[0].Value;
+                cliente.Codigo = (Int32)cmd.Parameters[0].Value;
 
 
 
@@ -81,23 +81,44 @@ namespace Dal
                 pcodigo.Value = cliente.Codigo;
                 cmd.Parameters.Add(pcodigo);
 
-                SqlParameter pnome = new SqlParameter("Codigo", SqlDbType.Int);
+                SqlParameter pnome = new SqlParameter("@nome", SqlDbType.Int);
                 pcodigo.Value = cliente.Codigo;
-                cmd.Parameters.Add(pcodigo);
+                cmd.Parameters.Add(pnome);
+                
 
+                SqlParameter pemail = new SqlParameter("@email", SqlDbType.Int);
+                pcodigo.Value = cliente.Codigo;
+                cmd.Parameters.Add(pemail);
+               
 
+                SqlParameter ptelefone= new SqlParameter("@telefone", SqlDbType.Int);
+                pcodigo.Value = cliente.Codigo;
+                cmd.Parameters.Add(pnome);
 
-
+                cn.Open();
+                cmd.ExecuteNonQuery();
 
             }
-            catch (Exception) 
+            catch (Exception ex) 
             {
+                throw new Exception("erro no servidor sql" + ex.Message);
+            }
+            finally
+            {
+                cn.Close();
 
             }
-       
-        
-        
+           
         }
+       public void Excluir(int codigo)
+       {
+            SqlConnection cn = new SqlConnection();
+            try
+            {
+                cn.ConnectionString = Dados.StringConexao();
+            }
+       }
+       
 
                 
             
